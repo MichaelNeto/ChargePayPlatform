@@ -1,0 +1,27 @@
+# .NET
+bin/
+obj/
+*.user
+ChargePay.Api/logs/
+
+# Segredos e configuração local
+appsettings.Development.json
+appsettings.*.local.json
+.env
+.env.local
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Docker
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db

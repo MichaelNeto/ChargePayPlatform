@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ChargePay.Api/ChargePay.Api.csproj" />
+  <Project Path="ChargePay.Application/ChargePay.Application.csproj" />
+  <Project Path="ChargePay.Domain/ChargePay.Domain.csproj" />
+  <Project Path="ChargePay.Infrastructure/ChargePay.Infrastructure.csproj" />
+</Solution>
