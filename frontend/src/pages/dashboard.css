@@ -1,0 +1,179 @@
+.dash-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: linear-gradient(135deg, #0f2027, #203a43 55%, #2c5364);
+  border-bottom: none;
+}
+
+.dash-brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.dash-logout-button {
+  padding: 9px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dash-logout-button:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.dash-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-brand-mark {
+  font-size: 22px;
+}
+
+.dash-brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e9ecf0;
+}
+
+.dash-logout-button {
+  padding: 9px 18px;
+  background: transparent;
+  color: #64748b;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dash-logout-button:hover {
+  background: #fef2f2;
+  color: #ef4444;
+  border-color: #fecaca;
+}
+
+.dash-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.dash-welcome {
+  margin-bottom: 32px;
+}
+
+.dash-welcome h1 {
+  font-size: 26px;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.dash-welcome-email {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.dash-welcome-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.dash-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: linear-gradient(135deg, #0f2027, #203a43 55%, #2c5364);
+  border-radius: 18px;
+  padding: 32px;
+  margin-bottom: 32px;
+  color: #ffffff;
+}
+
+.dash-welcome-text h1 {
+  color: #ffffff;
+}
+
+.dash-welcome-email {
+  color: #94a3b8;
+}
+
+.dash-welcome-subtitle {
+  color: #cbd5e1;
+}
+
+.dash-welcome-illustration {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.dash-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+}
+
+.dash-card-disabled {
+  opacity: 0.7;
+}
+
+.dash-card-icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.dash-card h3 {
+  font-size: 15px;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.dash-card p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.dash-card-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #22c55e;
+  background: #f0fdf4;
+  padding: 3px 9px;
+  border-radius: 999px;
+}

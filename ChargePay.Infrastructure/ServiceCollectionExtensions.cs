@@ -38,7 +38,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IReceiptRepository, ReceiptRepository>();
         services.AddScoped<IAuditLogRepository, AuditLogRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
-        services.AddSingleton<IEventPublisher, KafkaEventPublisher>();
+        services.AddSingleton<IEventPublisher, ConsoleEventPublisher>();
 
         return services;
     }
