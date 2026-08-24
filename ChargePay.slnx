@@ -3,4 +3,5 @@
   <Project Path="ChargePay.Application/ChargePay.Application.csproj" />
   <Project Path="ChargePay.Domain/ChargePay.Domain.csproj" />
   <Project Path="ChargePay.Infrastructure/ChargePay.Infrastructure.csproj" />
+  <Project Path="ChargePay.Tests/ChargePay.Tests.csproj" />
 </Solution>

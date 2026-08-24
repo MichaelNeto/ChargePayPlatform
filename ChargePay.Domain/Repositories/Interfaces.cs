@@ -27,6 +27,8 @@ public interface IWalletRepository
     Task AddAsync(Wallet wallet);
     Task UpdateAsync(Wallet wallet);
     Task<List<WalletTransaction>> GetTransactionsAsync(Guid walletId, int pageSize = 50, int pageNumber = 1);
+    Task AddRechargeAsync(WalletRecharge recharge);
+    Task SaveChangesAsync();
 }
 
 /// <summary>

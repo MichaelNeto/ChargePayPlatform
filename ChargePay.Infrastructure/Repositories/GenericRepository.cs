@@ -4,13 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChargePay.Infrastructure.Repositories;
 
-/// <summary>
-/// Implementação genérica do repositório
-/// </summary>
-public class GenericRepository<T> : IRepository<T> where T : class
+public class GenericRepository<T> : IRepository<T>
+    where T : class
 {
-    private readonly ChargePayDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly ChargePayDbContext _context;
+    protected readonly DbSet<T> _dbSet;
 
     public GenericRepository(ChargePayDbContext context)
     {
@@ -43,6 +41,7 @@ public class GenericRepository<T> : IRepository<T> where T : class
     public virtual async Task DeleteAsync(Guid id)
     {
         var entity = await GetByIdAsync(id);
+
         if (entity != null)
         {
             _dbSet.Remove(entity);

@@ -1,8 +1,13 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import LoginPage from './features/auth/LoginPage';
-import CadastroPage from './features/auth/CadastroPage';
-import DashboardPage from './pages/DashboardPage';
-import { useAuthStore } from './shared/store/authStore';
+import { Navigate, Route, Routes } from "react-router-dom";
+import LoginPage from "./features/auth/LoginPage";
+import CadastroPage from "./features/auth/CadastroPage";
+import DashboardPage, {
+  WalletDashboardPage,
+  SessionsDashboardPage,
+  InvoiceDashboardPage,
+  NotificationDashboardPage,
+} from "./pages/DashboardPage";
+import { useAuthStore } from "./shared/store/authStore";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -15,6 +20,7 @@ export default function App() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cadastro" element={<CadastroPage />} />
+
       <Route
         path="/dashboard"
         element={
@@ -23,10 +29,41 @@ export default function App() {
           </RequireAuth>
         }
       />
+      <Route
+        path="/dashboard/wallet"
+        element={
+          <RequireAuth>
+            <WalletDashboardPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/sessions"
+        element={
+          <RequireAuth>
+            <SessionsDashboardPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/invoices"
+        element={
+          <RequireAuth>
+            <InvoiceDashboardPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/notifications"
+        element={
+          <RequireAuth>
+            <NotificationDashboardPage />
+          </RequireAuth>
+        }
+      />
     </Routes>
   );
 }
-
 
 // import { Routes, Route, Navigate } from 'react-router-dom';
 // import { AuthPage } from './features/auth/AuthPage';

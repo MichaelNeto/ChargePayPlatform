@@ -1,15 +1,16 @@
-import { useAuthStore } from '../store/authStore';
-import type { ApiResponse } from '../types/api';
+import { useAuthStore } from "../store/authStore";
+import type { ApiResponse } from "../types/api";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
 
-export async function apiPost<T>(
+export async function apiRequest<T>(
   path: string,
-  body: unknown,
-  options: { auth?: boolean } = {}
+  method: "GET" | "POST",
+  body?: unknown,
+  options: { auth?: boolean } = {},
 ): Promise<ApiResponse<T>> {
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   if (options.auth) {
@@ -18,15 +19,29 @@ export async function apiPost<T>(
   }
 
   const response = await fetch(`${API_URL}${path}`, {
-    method: 'POST',
+    method,
     headers,
-    body: JSON.stringify(body),
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   const json = (await response.json()) as ApiResponse<T>;
   return json;
 }
 
+export async function apiPost<T>(
+  path: string,
+  body: unknown,
+  options: { auth?: boolean } = {},
+): Promise<ApiResponse<T>> {
+  return apiRequest<T>(path, "POST", body, options);
+}
+
+export async function apiGet<T>(
+  path: string,
+  options: { auth?: boolean } = {},
+): Promise<ApiResponse<T>> {
+  return apiRequest<T>(path, "GET", undefined, options);
+}
 
 // import axios from 'axios';
 

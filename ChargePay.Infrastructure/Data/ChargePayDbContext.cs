@@ -17,6 +17,7 @@ public class ChargePayDbContext : DbContext
     // DbSets
     public DbSet<User> Users => Set<User>();
     public DbSet<Wallet> Wallets => Set<Wallet>();
+    public DbSet<WalletRecharge> WalletRecharges => Set<WalletRecharge>();
     public DbSet<WalletTransaction> WalletTransactions => Set<WalletTransaction>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<ChargingStation> ChargingStations => Set<ChargingStation>();
@@ -34,6 +35,7 @@ public class ChargePayDbContext : DbContext
         // Configurar tabelas
         ConfigureUserEntity(modelBuilder);
         ConfigureWalletEntity(modelBuilder);
+        ConfigureWalletRechargeEntity(modelBuilder);
         ConfigureWalletTransactionEntity(modelBuilder);
         ConfigureRefreshTokenEntity(modelBuilder);
         ConfigureChargingStationEntity(modelBuilder);
@@ -109,15 +111,15 @@ public class ChargePayDbContext : DbContext
         .HasConversion(money => money.Amount, value => Money.FromCents(value))
         .IsRequired();
 
-            builder.Property(w => w.MaxDailyLimit)
-                .HasConversion(
-                    money => money == null ? (long?)null : money.Amount,
-                    value => value == null ? null : Money.FromCents(value.Value));
+        builder.Property(w => w.MaxDailyLimit)
+            .HasConversion(
+                money => money == null ? (long?)null : money.Amount,
+                value => value == null ? null : Money.FromCents(value.Value));
 
-            builder.Property(w => w.MaxMonthlyLimit)
-                .HasConversion(
-        money => money == null ? (long?)null : money.Amount,
-        value => value == null ? null : Money.FromCents(value.Value));
+        builder.Property(w => w.MaxMonthlyLimit)
+            .HasConversion(
+    money => money == null ? (long?)null : money.Amount,
+    value => value == null ? null : Money.FromCents(value.Value));
         builder.Property(w => w.CreatedAt).IsRequired();
         builder.Property(w => w.UpdatedAt).IsRequired();
 
@@ -127,25 +129,45 @@ public class ChargePayDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
     }
 
+    private void ConfigureWalletRechargeEntity(ModelBuilder modelBuilder)
+    {
+        var builder = modelBuilder.Entity<WalletRecharge>();
+
+        builder.HasKey(r => r.RechargeId);
+        builder.Property(r => r.WalletId).IsRequired();
+        builder.Property(r => r.Amount)
+            .HasConversion(money => money.Amount, value => Money.FromCents(value))
+            .IsRequired();
+        builder.Property(r => r.Status).IsRequired();
+        builder.Property(r => r.QrCode).IsRequired().HasMaxLength(500);
+        builder.Property(r => r.CreatedAt).IsRequired();
+        builder.Property(r => r.PaidAt);
+
+        builder.HasOne(r => r.Wallet)
+            .WithMany(w => w.Recharges)
+            .HasForeignKey(r => r.WalletId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
     private void ConfigureWalletTransactionEntity(ModelBuilder modelBuilder)
-{
-    var builder = modelBuilder.Entity<WalletTransaction>();
+    {
+        var builder = modelBuilder.Entity<WalletTransaction>();
 
-    builder.HasKey(wt => wt.TransactionId);
-    builder.Property(wt => wt.WalletId).IsRequired();
-    builder.Property(wt => wt.Type).IsRequired();
-    builder.Property(wt => wt.Description).IsRequired().HasMaxLength(500);
-    builder.Property(wt => wt.CreatedAt).IsRequired();
+        builder.HasKey(wt => wt.TransactionId);
+        builder.Property(wt => wt.WalletId).IsRequired();
+        builder.Property(wt => wt.Type).IsRequired();
+        builder.Property(wt => wt.Description).IsRequired().HasMaxLength(500);
+        builder.Property(wt => wt.CreatedAt).IsRequired();
 
-    builder.Property(wt => wt.Amount)
-        .HasConversion(money => money.Amount, value => Money.FromCents(value))
-        .IsRequired();
+        builder.Property(wt => wt.Amount)
+            .HasConversion(money => money.Amount, value => Money.FromCents(value))
+            .IsRequired();
 
-    builder.HasOne(wt => wt.Wallet)
-        .WithMany(w => w.Transactions)
-        .HasForeignKey(wt => wt.WalletId)
-        .OnDelete(DeleteBehavior.Cascade);
-}
+        builder.HasOne(wt => wt.Wallet)
+            .WithMany(w => w.Transactions)
+            .HasForeignKey(wt => wt.WalletId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 
     private void ConfigureRefreshTokenEntity(ModelBuilder modelBuilder)
     {
@@ -231,9 +253,9 @@ public class ChargePayDbContext : DbContext
         builder.Property(c => c.TariffPerKwh)
     .HasConversion(money => money.Amount, value => Money.FromCents(value))
     .IsRequired();
-builder.Property(c => c.ChargeAmount)
-    .HasConversion(money => money.Amount, value => Money.FromCents(value))
-    .IsRequired();
+        builder.Property(c => c.ChargeAmount)
+            .HasConversion(money => money.Amount, value => Money.FromCents(value))
+            .IsRequired();
         builder.Property(c => c.CreatedAt).IsRequired();
     }
 

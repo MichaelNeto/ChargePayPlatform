@@ -1,3 +1,4 @@
+using ChargePay.Domain.Enums;
 using ChargePay.Domain.ValueObjects;
 
 namespace ChargePay.Domain.Entities;
@@ -18,6 +19,7 @@ public class Wallet
     // Relações
     public virtual User? User { get; private set; }
     public virtual List<WalletTransaction> Transactions { get; private set; } = new();
+    public virtual List<WalletRecharge> Recharges { get; private set; } = new();
 
     private Wallet() { }
 
@@ -46,6 +48,48 @@ public class Wallet
 
         Balance = Balance.Add(amount);
         UpdatedAt = DateTime.UtcNow;
+
+        var transaction = WalletTransaction.Create(
+            WalletId,
+            amount,
+            TransactionType.Credit,
+            $"Recarga via Pix - {amount.ToString()}"
+        );
+
+        Transactions.Add(transaction);
+
+        return Result<bool>.Success(true);
+    }
+
+    public Result<WalletRecharge> CreateRecharge(Money amount)
+    {
+        if (!amount.IsGreaterThan(Money.FromCents(0)))
+            return Result<WalletRecharge>.Failure("Valor deve ser maior que zero");
+
+        var validAmounts = new[] { 5000L, 10000L, 20000L, 30000L };
+        if (!validAmounts.Contains(amount.Amount))
+            return Result<WalletRecharge>.Failure("Valor de recarga inválido.");
+
+        var recharge = WalletRecharge.Create(WalletId, amount);
+        Recharges.Add(recharge);
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result<WalletRecharge>.Success(recharge);
+    }
+
+    public Result<bool> ConfirmRecharge(Guid rechargeId)
+    {
+        var recharge = Recharges.FirstOrDefault(r => r.RechargeId == rechargeId);
+        if (recharge is null)
+            return Result<bool>.Failure("Cobrança não encontrada.");
+
+        var confirmation = recharge.ConfirmPayment();
+        if (!confirmation.IsSuccess)
+            return Result<bool>.Failure(confirmation.ErrorMessage!);
+
+        var creditResult = AddCredit(recharge.Amount);
+        if (!creditResult.IsSuccess)
+            return Result<bool>.Failure(creditResult.ErrorMessage!);
 
         return Result<bool>.Success(true);
     }

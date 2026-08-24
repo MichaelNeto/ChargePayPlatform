@@ -21,29 +21,3 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: () => set({ token: null, user: null, isAuthenticated: false }),
 }));
 
-
-
-
-// import { create } from 'zustand';
-
-// type AuthState = {
-//   isAuthenticated: boolean;
-//   token: string | null;
-//   user: { email: string } | null;
-//   login: (token: string, email: string) => void;
-//   logout: () => void;
-// };
-
-// export const useAuthStore = create<AuthState>((set) => ({
-//   isAuthenticated: false,
-//   token: null,
-//   user: null,
-//   login: (token, email) => {
-//     localStorage.setItem('chargepay_token', token);
-//     set({ isAuthenticated: true, token, user: { email } });
-//   },
-//   logout: () => {
-//     localStorage.removeItem('chargepay_token');
-//     set({ isAuthenticated: false, token: null, user: null });
-//   }
-// }));
